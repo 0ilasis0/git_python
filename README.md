@@ -57,9 +57,9 @@ Lctrl：儲存方塊
 ## 遊戲節圖
 
 ![screenshot1](screenshot/screenshot1.png)
-![screenshot2](git_python/screenshot/screenshot2.png)
-![screenshot3](git_python/screenshot/screenshot3.png)
-![screenshot4](git_python/screenshot/screenshot4.png)
-![screenshot5](git_python/screenshot/screenshot5.png)
-![screenshot6](git_python/screenshot/screenshot6.png)
+![screenshot2](screenshot/screenshot2.png)
+![screenshot3](screenshot/screenshot3.png)
+![screenshot4](screenshot/screenshot4.png)
+![screenshot5](screenshot/screenshot5.png)
+![screenshot6](screenshot/screenshot6.png)
 
