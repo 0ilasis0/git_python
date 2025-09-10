@@ -216,12 +216,13 @@ class PageNavigation(BasePageNavigation):
             fixed       = False,
         )
         # score number
-        fonts_mg.renew_font(
-            category    = category,
-            index       = player.score,
-            pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.BASE_NUMBER_BIG)),
-            fixed       = False,
-        )
+        if player.score > 0:
+            fonts_mg.renew_font(
+                category    = category,
+                index       = player.score,
+                pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.BASE_NUMBER_BIG)),
+                fixed       = False,
+            )
         # combo number
         fonts_mg.renew_font(
             category    = category,
@@ -462,11 +463,12 @@ class PageBoot():
             height_block    = GameVariable.CELL_BLOCK,
         )
         # combo
-        fonts_mg.renew_font(
-            category    = category,
-            index       = GameVariable.MAX_SCORE + GameVariable.MAX_COMBO + GameVariable.MAX_KO_COUNT,
-            pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.GAME_COMBO)),
-        )
+        if player.score > 0:
+            fonts_mg.renew_font(
+                category    = category,
+                index       = GameVariable.MAX_SCORE + GameVariable.MAX_COMBO + GameVariable.MAX_KO_COUNT,
+                pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.GAME_COMBO)),
+            )
         # score
         fonts_mg.renew_font(
             category    = category,

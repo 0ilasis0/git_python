@@ -15,15 +15,21 @@ class RankManager(BaseManager):
         self.state[PageTable.RANK.value] = json_mg.get_json_list("dict", PageTable.RANK.value)
 
     def add_score(self, min: int, sec: int, score: int):
-        """加入新分數並更新排行榜"""
         new_entry = [min, sec, score]
-        self.state[PageTable.RANK.value].append(new_entry)
+        rank_list = self.state[PageTable.RANK.value]
 
-        # 排序（依分數高低）
-        self.state[PageTable.RANK.value].sort(key = lambda x: x[2], reverse = True)
+        # 檢查是否已經有完全相同的分數和時間
+        if new_entry in rank_list:
+            return  # 已存在，不加入
 
-        # 只保留前 3 名
-        self.state[PageTable.RANK.value] = self.state[PageTable.RANK.value][:3]
+        # 新條目加入排行榜
+        rank_list.append(new_entry)
+
+        # 排序：分數高 → 時間短
+        rank_list.sort(key=lambda x: (-x[2], x[0]*60 + x[1]))
+
+        # 保留前 3 名
+        self.state[PageTable.RANK.value] = rank_list[:3]
 
         # 存回 JSON
         self._update_json_value(PageTable.RANK.value, PageTable.RANK.value, self.state[PageTable.RANK.value])

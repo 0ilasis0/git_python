@@ -222,13 +222,20 @@ class PageNavigation(BasePageNavigation):
             pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.BASE_NUMBER_BIG)),
             fixed       = False,
         )
-        # combo number
-        fonts_mg.renew_font(
-            category    = category,
-            index       = player.combo + GameVariable.MAX_SCORE,
-            pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.GAME_COMBO_NUMBER)),
-            fixed       = False,
-        )
+        # combo / combo number
+        if player.combo > 0:
+            fonts_mg.renew_font(
+                category    = category,
+                index       = GameVariable.MAX_SCORE + GameVariable.MAX_COMBO + GameVariable.MAX_KO_COUNT,
+                pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.GAME_COMBO)),
+                fixed       = False,
+            )
+            fonts_mg.renew_font(
+                category    = category,
+                index       = player.combo + GameVariable.MAX_SCORE,
+                pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.GAME_COMBO_NUMBER)),
+                fixed       = False,
+            )
         # ko顯示
         if player.attack_mg.ko_counter > 0:
             fonts_mg.renew_font(
@@ -405,7 +412,7 @@ class PageBoot():
             )
 
         for i, (extra_x, extra_y) in RankConfig.extra_pos_player.items():
-            if rank_data[i][2] == 0: continue
+            if rank_data[i][2] == 0: break
 
             # 玩家實際 分 秒 分數
             fonts_mg.renew_font(
@@ -460,12 +467,6 @@ class PageBoot():
             pos             = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.GAME_SLOT)),
             width_block     = GameVariable.CELL_BLOCK,
             height_block    = GameVariable.CELL_BLOCK,
-        )
-        # combo
-        fonts_mg.renew_font(
-            category    = category,
-            index       = GameVariable.MAX_SCORE + GameVariable.MAX_COMBO + GameVariable.MAX_KO_COUNT,
-            pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.GAME_COMBO)),
         )
         # score
         fonts_mg.renew_font(
