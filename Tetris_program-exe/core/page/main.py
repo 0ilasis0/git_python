@@ -216,20 +216,26 @@ class PageNavigation(BasePageNavigation):
             fixed       = False,
         )
         # score number
-        if player.score > 0:
-            fonts_mg.renew_font(
-                category    = category,
-                index       = player.score,
-                pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.BASE_NUMBER_BIG)),
-                fixed       = False,
-            )
-        # combo number
         fonts_mg.renew_font(
             category    = category,
-            index       = player.combo + GameVariable.MAX_SCORE,
-            pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.GAME_COMBO_NUMBER)),
+            index       = player.score,
+            pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.BASE_NUMBER_BIG)),
             fixed       = False,
         )
+        # combo / combo number
+        if player.combo > 0:
+            fonts_mg.renew_font(
+                category    = category,
+                index       = GameVariable.MAX_SCORE + GameVariable.MAX_COMBO + GameVariable.MAX_KO_COUNT,
+                pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.GAME_COMBO)),
+                fixed       = False,
+            )
+            fonts_mg.renew_font(
+                category    = category,
+                index       = player.combo + GameVariable.MAX_SCORE,
+                pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.GAME_COMBO_NUMBER)),
+                fixed       = False,
+            )
         # ko顯示
         if player.attack_mg.ko_counter > 0:
             fonts_mg.renew_font(
@@ -462,13 +468,6 @@ class PageBoot():
             width_block     = GameVariable.CELL_BLOCK,
             height_block    = GameVariable.CELL_BLOCK,
         )
-        # combo
-        if player.score > 0:
-            fonts_mg.renew_font(
-                category    = category,
-                index       = GameVariable.MAX_SCORE + GameVariable.MAX_COMBO + GameVariable.MAX_KO_COUNT,
-                pos         = layout_mg.get_item_pos(category, player.suffix_key(LayoutName.GAME_COMBO)),
-            )
         # score
         fonts_mg.renew_font(
             category    = category,

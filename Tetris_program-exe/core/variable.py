@@ -1,37 +1,18 @@
-import sys
 from enum import Enum
 from pathlib import Path
 
 #
 # 路徑
 #
-
-# 專案根目錄
 PATH_ROOT = Path(__file__).resolve().parent.parent
 
-def resource_path(relative_path):
-    """
-    取得外部資源路徑：
-    - 打包成 exe 時：使用 exe 同目錄
-    - 開發模式：使用專案根目錄
-    """
-    if getattr(sys, "frozen", False):
-        # exe 打包後
-        base_path = Path(sys.executable).parent
-    else:
-        # 開發環境
-        base_path = PATH_ROOT
-    return base_path / relative_path
-
 class PathBase:
-    background = resource_path("background")
-    img        = resource_path("img")
-    icon       = resource_path("images.ico")
-    json       = resource_path("data")
-    song       = resource_path("song")
-    font       = resource_path("font")
-
-
+    background  = PATH_ROOT / 'background'
+    img         = PATH_ROOT / 'img'
+    icon        = PATH_ROOT / 'images.ico'
+    json        = PATH_ROOT / 'data'
+    song        = PATH_ROOT / 'song'
+    font        = PATH_ROOT / 'font'
 
 class PathConfig:
     bg1         = PathBase.background / "background1.jpg"
