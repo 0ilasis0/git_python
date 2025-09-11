@@ -1,7 +1,7 @@
 import os
 import shutil
 
-source_root = r'C:\Users\User\Downloads\2月~4月\4.魔改预览\4.二月~四月预览图片\4月魔改包\4月魔改包'
+source_root = r'C:\Users\User\Downloads'
 destination = r'C:\Users\User\Downloads'
 
 os.makedirs(destination, exist_ok=True)
