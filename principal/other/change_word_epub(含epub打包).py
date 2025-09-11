@@ -11,7 +11,6 @@ path = r'C:\Users\User\Downloads'
 REPLACEMENTS = [
     # ('他', '她'),
     # ('其她', '其他'),
-    ('仁 ', '金'),
 ]
 
 # 文字替換函式
