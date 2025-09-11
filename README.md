@@ -16,6 +16,8 @@
 
 ## 📂 目錄結構（主要檔案 / 模組概覽）
 
+```text
+
 core/
 ├── base/                # Stack、ClockTimer、全域工具
 ├── debug/               # dbg：開發用除錯輸出工具
@@ -33,6 +35,7 @@ core/
 Tetris.py                # 遊戲啟動與主迴圈（exe 起點）
 Tetris.exe/              # 已打包為可執行檔
 
+```
 
 
 # 🎮 主要功能
