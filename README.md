@@ -1,60 +1,146 @@
-# Tetris_program-exe
+# 俄羅斯方塊（Tetris）遊戲專案
 
-已打包為獨立 Windows 可執行檔 `Tetris.exe`（為本 repo 之主要專題檔案），無需安裝 Python 或第三方套件即可直接執行。
+此專題為作者於自學 **Python 與 Pygame** 時所開發的一個完整 Tetris 遊戲。
+專案重點在 **遊戲機制** 與 **系統化設計**，主要特色如下：
 
+- 單人、雙人（同機）、無盡三種遊戲模式
+- 對戰攻擊 / 垃圾列系統（含地雷、KO 判定）
+- 等級（難度）管理：依分數或時間改變下落速度與垃圾行為
+- 模組化資源管理：Layout、Screen、Font、Song
+- 遊戲資料持久化：排行榜、選曲、音量設定儲存為 JSON
+- 除錯輸出工具（dbg）、頁面導覽堆疊（Stack）
 
+> 📌 除了完整遊戲，本 repo 亦保留部分學習練習檔（與主專題無關）。
 
-## 簡介
-`Tetris_program-exe` 為作者課餘自主製作的俄羅斯方塊（Tetris）專題作品。專案重點放在遊戲機制、方塊旋轉/碰撞處理與遊戲流程設計；主程式已打包成可執行檔，方便評審或教授快速執行與體驗。
-Repo 內亦保留若干個人 Python 練習檔（例如：principal,practice,api），僅為學習用途，**與主專題功能無關**。
+---
 
+## 📂 目錄結構（主要檔案 / 模組概覽）
 
-
-## 主要功能
-- 單人模式：分數、等級、速度遞增。
-- 雙人同機對戰（本機）：鍵盤分區對戰，含基本攻擊機制。
-- 方塊旋轉與碰撞處理：以 4x4 模板矩陣表示方塊，採矩陣旋轉並做邊界/格子碰撞檢查，包含簡易 wall-kick 行為。
-- 高分儲存：將高分寫入本地檔案（JSON 格式）。
-
-
-
-## 如何開始遊戲
-1. 下載本 repo。
-2. 在根目錄找到 `Tetris_program-exe`。
-3. 直接雙擊 `Tetris.exe` 即可啟動遊戲。
-
-
-
-## 操作說明（預設鍵位）
-BackSpace：退回到前一個頁面
-
-Enter：前進到下一個頁面
-
-左 / 右：移動方塊
-
-上：旋轉方塊
-
-下：加速落下
-
-空白：立即落下
-
-Lctrl：儲存方塊
+```text
+core/
+├── base/                # Stack、ClockTimer、全域工具
+├── debug/               # dbg：開發用除錯輸出工具
+├── font/                # 字型 JSON 載入與渲染、文字管理
+├── hmi/                 # SONG、RANK、BaseManager（狀態/介面抽象）
+├── keyboard/            # 鍵盤輸入映射、游標 hook 管理
+├── location_layout/     # 版面配置（LayoutManager、LayoutItem）
+├── page/                # 頁面管理、導航與 boot 流程
+├── screen/              # 螢幕初始化、背景與圖片管理、繪圖管理
+├── tetris_game/         # 遊戲核心（Tetromino, Field, TetrisCore, Attack, Level, Mode）
+│   ├── attack/          # 對戰系統（Attack, BattleManager）
+│   ├── level/           # 等級/難度管理
+│   └── mode/            # single/double/endless 三種模式邏輯
+├── variable.py          # 全域路徑、顏色、PageTable、JsonPath 等
+Tetris.py                # 遊戲啟動與主迴圈（exe 起點）
+Tetris.exe/              # 已打包為可執行檔
 
 
 
-## 開發重點（技術摘要）
+# 🎮 主要功能
 
-方塊表示：使用格子 (grid) 與 4x4 方塊模板表示不同方塊型態。
+## 單人模式
+- 隨分數提升等級，遊戲變快並可能觸發垃圾列。
 
-旋轉邏輯：以矩陣旋轉結合邊界與格子碰撞檢查；遇到碰撞時嘗試左右偏移（簡易 wall-kick），若仍不可行則回滾旋轉。
+## 雙人同機對戰
+- 兩位玩家各自操作，落地與連擊會產生攻擊值。
+- 攻擊差由系統自動轉換成垃圾列。
+- **KO**（頂端被堵塞）與 **地雷機制**。
 
-消行處理：由底層往上掃描滿行並刪除，同時更新分數與等級，等級提升會提高下落速度。
+## 無盡模式
+- 以時間間隔自動增加垃圾列，適合長時間挑戰。
 
-高分儲存：以 JSON 檔存放於執行目錄，便於讀取與展示。
+## 方塊控制
+- **移動**：`←` `→`
+- **旋轉**：`↑`（含簡易 wall-kick）
+- **加速下落**：`↓`
+- **立即落下**：`Space`
+- **儲存方塊 (Hold)**：`LCtrl`
+
+---
+
+# ⌨️ 操作說明（預設鍵位）
+
+- `BackSpace`：退回上一頁
+- `Enter`：確認 / 前進
+- `← / →`：移動方塊
+- `↑`：旋轉方塊
+- `↓`：加速下落
+- `Space`：立即落下
+- `LCtrl`：儲存（hold）方塊
+- （雙人對戰已設定好分區鍵位，詳見 **遊戲內說明**）
+
+---
 
 
 
-## 遊戲節圖
+# 🚀 如何執行
+1. 直接執行可執行檔（推薦）
+bash
+複製程式碼
+進入 Tetris_program-exe 資料夾
+雙擊 Tetris.exe 執行（Windows）
+2. 以原始碼執行（開發者）
+bash
+複製程式碼
+# 安裝相依套件
+pip install pygame
+
+# 在專案根目錄執行
+python Tetris.py
+3. 注意事項
+core/variable.PathBase 會依是否打包自動決定路徑，不需手動修改。
+
+
+
+# ⚙️ 程式設計重點
+方塊與碰撞
+方塊以 4×4 模板定義，每次旋轉只改變 rotation index。
+
+碰撞檢查遍歷 4×4 格子，檢查邊界與場地佔用。
+
+旋轉（Wall-kick）
+碰撞時嘗試左右位移，若仍衝突則回滾旋轉（簡易版 wall-kick）。
+
+消行與分數
+Field.clear_lines() 掃描滿行 → 消除 → 補空行 → 回傳行數。
+
+分數依 消行數 + combo 加權計算。
+
+對戰系統
+消行或 combo 產生攻擊 → 攻擊差轉換成垃圾列。
+
+垃圾列可含隨機地雷（踩中觸發特殊效果）。
+
+等級管理
+LevelManager 根據分數或時間提升難度。
+
+無盡模式會定時生成垃圾列。
+
+UI 與版面
+LayoutManager 與 LayoutCollection 管理遊戲畫面結構。
+
+DrawManager 將繪圖指令集中處理，分靜態/動態渲染。
+
+# 📝 學習與決策重點
+模組化：畫面、字型、鍵盤、遊戲邏輯分離，方便除錯與擴充。
+
+工程實務：資源路徑抽象、JSON 設定與持久化。
+
+演算法：碰撞、旋轉、消行、combo、攻擊轉換與垃圾列生成。
+
+學習取向：涵蓋遊戲開發常見面向（事件循環、狀態機、資料管理）。
+
+
+# 📖 參考與除錯
+開發環境需安裝 pygame
+
+資源檔案：data/, img/, font/, song/
+
+除錯：dbg.toggle() 開/關 debug 輸出，追蹤函式呼叫與參數
+
+
+
+# 🖼️ 截圖展示
 
 ![screenshot1](screenshot/screenshot1.png)
 ![screenshot2](screenshot/screenshot2.png)
