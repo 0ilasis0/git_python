@@ -76,11 +76,8 @@ Tetris.exe               # 已打包為可執行檔
 雙擊 Tetris.exe 執行（Windows）
 
 2. 以原始碼執行（開發者）
-# 安裝相依套件
-pip install pygame
-
-# 在**Tetris_program-exe**專案根目錄執行
-python Tetris.py
+安裝相依套件 `pip install pygame`
+並在**Tetris_program-exe**專案根目錄執行 `python Tetris.py`
 3. 注意事項
 core/variable.PathBase 會依是否打包自動決定路徑，不需手動修改。
 
